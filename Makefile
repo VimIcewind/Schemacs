@@ -5,4 +5,4 @@
 
 
 install: emacs.c
-	cc -fPIC -shared emacs.c -o emacs.so
+	gcc -fPIC -shared emacs.c -o emacs.so

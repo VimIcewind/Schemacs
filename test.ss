@@ -11,7 +11,7 @@
     (init)
     (welcome)
     (message)
-    (move-to (row-size) 0)        
+    (move-to (row-size) 0)
     (start)))
 
 (define write-act
@@ -36,4 +36,4 @@
 (write-act (cdr *acts*))
 (newline)
 (display "(exit) to exit, (restart) to restart.")
-    
+

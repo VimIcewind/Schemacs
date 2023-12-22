@@ -1,4 +1,4 @@
-#!/usr/local/bin/scheme
+#!/usr/bin/scheme
 
 
 (load-shared-object "emacs.so")
@@ -25,37 +25,37 @@
   (lambda ()
     (virtual-register 0)))
 
-(define set-row-size! 
+(define set-row-size!
   (lambda (x)
-    (set-virtual-register! 0 x))) 
+    (set-virtual-register! 0 x)))
 
 
 (define col-size
   (lambda ()
     (virtual-register 1)))
 
-(define set-col-size! 
+(define set-col-size!
   (lambda (x)
     (set-virtual-register! 1 x)))
 
 
-(define row 
+(define row
     (lambda ()
         (virtual-register 2)))
 
-(define set-row! 
+(define set-row!
   (lambda (x)
-    (set-virtual-register! 2 x))) 
+    (set-virtual-register! 2 x)))
 
 
-(define col 
+(define col
     (lambda ()
         (virtual-register 3)))
 
 
-(define set-col! 
+(define set-col!
   (lambda (x)
-    (set-virtual-register! 3 x))) 
+    (set-virtual-register! 3 x)))
 
 
 (define col-cache
@@ -75,7 +75,7 @@
 
 (define set-lines!
   (lambda (x)
-    (set-virtual-register! 5 x))) 
+    (set-virtual-register! 5 x)))
 
 
 (define line
@@ -85,7 +85,7 @@
 
 (define set-line!
   (lambda (x)
-    (set-virtual-register! 6 x))) 
+    (set-virtual-register! 6 x)))
 
 
 (define footer
@@ -157,7 +157,7 @@
     (display #\[)
     (let loop ((l keys))
       (if (not (null? l))
-          (begin 
+          (begin
             (display (car l))
             (loop (cdr l)))))))
 
@@ -191,9 +191,9 @@
       (display str)
       (clean-line)
       (move-to (row) (col)))))
-  
 
-        
+
+
 (define clean-screem
   (lambda ()
     (ioctl #\2 #\J)))
@@ -257,7 +257,7 @@
         ('dark-green 46)
         ('white 47)) #\m)))
 
-  
+
 
 (define reset-color
   (lambda ()
@@ -282,7 +282,7 @@
 
 (define welcome
   (lambda ()
-    (printf 
+    (printf
 "Welcome to Schemacs.
 
 
@@ -290,15 +290,15 @@
 
     ╔══════╗ ╔═════╗╔═╗  ╔═╗╔══════╗╔══╗   ╔══╗╔══════╗
     ║ ╔════╝╔ ╔════╝║ ║  ║ ║║ ╔════╝║  ╚╗ ╔╝  ║║ ╔════╝
-    ║ ╚════╗║ ║     ║ ╚══╝ ║║ ╚══╗  ║ ╔╗╚ ╝╔╗ ║║ ╚══╗  
-    ╚════╗ ║║ ║     ║ ╔══╗ ║║ ╔══╝  ║ ║╚╗ ╔╝║ ║║ ╔══╝  
+    ║ ╚════╗║ ║     ║ ╚══╝ ║║ ╚══╗  ║ ╔╗╚ ╝╔╗ ║║ ╚══╗
+    ╚════╗ ║║ ║     ║ ╔══╗ ║║ ╔══╝  ║ ║╚╗ ╔╝║ ║║ ╔══╝
     ╔════╝ ║╚ ╚════╗║ ║  ║ ║███████╗███╗╚═╝███╗║█████╗╗ ██████╗███████╗
     ╚══════╝ ╚═════╝╚═╝  ╚═╝██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
                             █████╗  ██╔████╔██║███████║██║     ███████╗
                             ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║
                             ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
                             ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
-                                                               
+
 
 
 
@@ -306,10 +306,10 @@
                                                                 MIT  License")))
 
 
-                                                  
+
 (define help
   (lambda ()
-    (printf 
+    (printf
 "
 Schemacs tutoral.
 
@@ -321,7 +321,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
        C-x C-c         quit
        C-x C-f         find a file
        C-x s           save the file
-       
+
        C-n             move to next line
        C-b             move backward a character
        C-f             move forward a character
@@ -337,19 +337,19 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
 (define next cdr)
 (define payload caaar)
 
-(define set-payload! 
+(define set-payload!
   (lambda (t p)
     (set-car! (caar t) p)))
 
 (define position cdaar)
 
-(define set-position! 
+(define set-position!
   (lambda (t p)
     (set-cdr! (caar t) p)))
 
 (define conbine! set-cdr!)
 
-(define retrace! 
+(define retrace!
   (lambda (rest pre)
     (set-cdr! (car rest) pre)))
 
@@ -395,9 +395,9 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
         (set-col! 1)
         (clean-line)))
     (move-to (row) (col))
-    (if (null? rest)   
+    (if (null? rest)
       (display i)
-      (begin 
+      (begin
         (retrace! rest t)
         (display i)
         (col+)
@@ -416,7 +416,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
             (move-to (row) (col))
             (set-lines! (- (lines) 1))
             (if (null? rest)
-                (begin 
+                (begin
                   (row-)
                   (set-col! (+ (position pre) 1)))
                 (begin
@@ -432,7 +432,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
             (display #\space)
             (display #\backspace)
             (if (not (null? rest))
-                  (begin 
+                  (begin
                   (retrace! rest pre)
                   (update-delete rest)))))
         (input-loop pre (previous act))))
@@ -444,14 +444,14 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
     (define c (col-info act))
     (define up
       (lambda (k)
-        (if (or (equal? (payload k) #\newline) 
+        (if (or (equal? (payload k) #\newline)
                 (= (position k) (col-size)))
-            (begin 
+            (begin
               (row-)
               (line-)))))
     (define down
       (lambda (k)
-        (if (or (equal? (payload k) #\newline) 
+        (if (or (equal? (payload k) #\newline)
                 (= (position k) (col-size)))
             (begin
               (row+)
@@ -467,7 +467,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
           (position t)
           (+ (position t) 1))))
     (let loop ((t txt))
-      (cond 
+      (cond
         ((< l (line))
            (up t)
            (loop (previous t)))
@@ -497,9 +497,9 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
         (set-col! 1)
         (clean-line)))
     (move-to (row) (col))
-    (if (null? txt)   
+    (if (null? txt)
       (display i)
-      (begin 
+      (begin
         (retrace! txt t)
         (display i)
         (col+)
@@ -518,7 +518,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
             (move-to (row) (col))
             (lines-)
             (if (null? rest)
-                (begin 
+                (begin
                   (row-)
                   (set-col! (+ (position pre) 1)))
                 (begin
@@ -549,20 +549,20 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
     (define c (col-info n))
     (define up
       (lambda (k)
-        (if (or (equal? (payload k) #\newline) 
+        (if (or (equal? (payload k) #\newline)
                 (= (position k) (col-size)))
-            (begin 
+            (begin
               (row-)
               (line-)))))
     (define down
       (lambda (k)
-        (if (or (equal? (payload k) #\newline) 
+        (if (or (equal? (payload k) #\newline)
                 (= (position k) (col-size)))
             (begin
               (row+)
               (line+)))))
     (let loop ((t txt))
-      (cond 
+      (cond
         ((< l (line))
            (up t)
            (loop (previous t)))
@@ -582,22 +582,22 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
 
 
 (define move-up
-  (case-lambda 
+  (case-lambda
     (()(ioctl #\A))
     ((n)(ioctl n #\A))))
 
 (define move-down
-  (case-lambda 
+  (case-lambda
     (()(ioctl #\B))
     ((n)(ioctl n #\B))))
 
 (define move-right
-  (case-lambda 
+  (case-lambda
     (()(ioctl #\C))
     ((n)(ioctl n #\C))))
 
 (define move-left
-  (case-lambda 
+  (case-lambda
     (()(ioctl #\D))
     ((n)(ioctl n #\D))))
 
@@ -623,7 +623,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
         1)
       (else
         (if (= c (col-size))
-            1 
+            1
             (+ 1 c))))))
 
 
@@ -635,7 +635,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
       (if (not (null? t))
           (begin
             (case (payload t)
-              (#\newline 
+              (#\newline
                 (clean-line)))
             (display (payload t))
             (set-position! t c)
@@ -647,8 +647,8 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
   (lambda (txt)
     (let l ((t txt)
             (c (col)))
-      (if (or (null? t) 
-              (equal? (payload t) 
+      (if (or (null? t)
+              (equal? (payload t)
                       #\newline))
           (display #\space)
           (begin
@@ -661,7 +661,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
 (define alarm
   (lambda (txt act)
     (display #\alarm)
-    (message "Operating fail~") 
+    (message "Operating fail~")
     (input-loop txt act)))
 
 
@@ -677,16 +677,16 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
         (lines+)
         (set-col! 1)
         (clean-line))
-      (else 
+      (else
         (col+)))
-    (if (null? rest)   
+    (if (null? rest)
         (display i)
-        (begin 
+        (begin
           (retrace! rest t)
           (display i)
           (update-insert rest)))
     (message)
-    (set-col-cache!) 
+    (set-col-cache!)
     (input-loop t (next act))))
 
 
@@ -730,7 +730,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
                 (begin
                   (retrace! rest pre)
                   (update-delete rest)))
-            (message) 
+            (message)
             (action act #f p)
             (set-col-cache!)
             (input-loop pre (next act)))))))
@@ -786,14 +786,14 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
     (define rest (next txt))
     (if (null? rest)
         (alarm txt act)
-        (begin 
+        (begin
           (case (payload rest)
             (#\newline
               (row+)
               (set-col! 1))
             (else
               (col+)))
-          (message) 
+          (message)
           (set-col-cache!)
           (move-to (row) (col))
           (input-loop rest act)))))
@@ -806,7 +806,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
         (alarm txt act)
         (begin
           (case (payload txt)
-            (#\newline 
+            (#\newline
               (row-)
               (set-col! (position txt))
               (line-))
@@ -823,11 +823,11 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
     (let ((p (open-input-file path)))
       (let loop ((lst '()) (c (read-char p)))
           (if (eof-object? c)
-              (begin 
+              (begin
                 (close-input-port p)
                 (list->string (reverse lst)))
               (begin
-                (display c)      
+                (display c)
                 (loop (cons c lst) (read-char p))))))))
 
 
@@ -836,7 +836,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
     (message)
     (move-to (row-size) 0)
     (display "find file: ")
-    (let ((path (list->string 
+    (let ((path (list->string
                   (let loop ((c (read-char)))
                     (case c
                       (#\newline '())
@@ -862,9 +862,9 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
 (define  input-loop
   (lambda (txt act)
     (define i (read-char))
-    (case i 
+    (case i
       (#\x02
-        (message "C-b Backward") 
+        (message "C-b Backward")
         (left txt act))
       (#\x06
         (message "C-f Forward")
@@ -879,7 +879,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
         (message "C-u Undo")
         (undo txt act))
       (#\x18
-        (message "C-x")  
+        (message "C-x")
         (case (read-char)
           (#\x03
             (quit))
@@ -911,7 +911,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
                 (left txt act))))))
       (#\delete
         (delete txt act))
-      (else 
+      (else
         (insert txt act i)))))
 
 
@@ -931,7 +931,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
             (init-mouse)
             (help)
             (message)
-            (move-to (row-size) 0) 
+            (move-to (row-size) 0)
             (start))
           (#\t
             (load "test.ss"))
@@ -948,7 +948,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
   (init)
   (welcome)
   (message)
-  (move-to (row-size) 0)        
+  (move-to (row-size) 0)
   (start))
 
 
