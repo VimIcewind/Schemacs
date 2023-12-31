@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
 
@@ -8,13 +9,15 @@ static struct winsize size;
 int raw_on(void)
 {
 
-    if (tcgetattr(0, &raw) == -1)
+    if (tcgetattr(STDIN_FILENO, &raw) == -1)
         return -1;
 
 
     raw.c_lflag &= ~ECHO;
+    raw.c_lflag &= ~ECHONL;
     raw.c_lflag &= ~ICANON;
     raw.c_lflag &= ~ISIG;
+    raw.c_lflag &= ~IEXTEN;
 
 
     // raw.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
@@ -24,14 +27,14 @@ int raw_on(void)
     // raw.c_cc[VMIN] = 1;
     // raw.c_cc[VTIME] = 0;
 
-    return tcsetattr(0, TCSAFLUSH, &raw);
+    return tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
 
 int raw_off(void)
 {
 
-    if (tcgetattr(0, &raw) == -1)
+    if (tcgetattr(STDIN_FILENO, &raw) == -1)
         return -1;
 
 
@@ -39,19 +42,19 @@ int raw_off(void)
     raw.c_lflag |= ICANON;
     raw.c_lflag |= ISIG;
 
-    return tcsetattr(0, TCSAFLUSH, &raw);
+    return tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
 
 
 int get_row(void)
 {
-    ioctl(0, TIOCGWINSZ, &size);
+    ioctl(STDIN_FILENO, TIOCGWINSZ, &size);
     return size.ws_row;
 }
 
 int get_col(void)
 {
-    ioctl(0, TIOCGWINSZ, &size);
+    ioctl(STDIN_FILENO, TIOCGWINSZ, &size);
     return size.ws_col;
 }
