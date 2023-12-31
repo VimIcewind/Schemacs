@@ -677,6 +677,15 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
         (lines+)
         (set-col! 1)
         (clean-line))
+      (#\tab
+       (col+)
+       (col+)
+       (col+)
+       (col+)
+       (col+)
+       (col+)
+       (col+)
+       (col+))
       (else
         (col+)))
     (if (null? rest)
@@ -896,7 +905,7 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
         (message "C-n Next line")
         (down txt act))
       (#\tab
-        (input-loop txt))
+        (insert txt act i))
       (#\esc
         (case (read-char)
           (#\[
@@ -950,7 +959,3 @@ Emacs commands generally involve the CONTROL key (sometimes labeled CTRL or CTL)
   (message)
   (move-to (row-size) 0)
   (start))
-
-
-
-
